@@ -18,14 +18,29 @@ import { Channel } from '../../models/channel';
 export class ChannelsPage {
 
   myChannels: Channel[] = [];
+  channelStates: Set<string> = new Set();
+  channelResume: Channel = null;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public channels: ChannelsProvider) { }
 
+  channelsByState(state: string): Channel[] {
+    return this.myChannels.filter(c => c.state === state)
+  }
+
   ionViewDidLoad() {
-
     this.channels.getChannels()
-      .subscribe(channels => { this.myChannels = channels })
+      .subscribe(channels => {
+        this.myChannels = channels;
+        this.channelStates = new Set(channels.map(c => c.state));
+        this.channelResume = channels.reduce((a, b) => new Channel('channelresume', 'MIXED', a.toLocalMsat + b.toLocalMsat, a.toRemoteMsat + b.toRemoteMsat))
+      })
+  }
 
+  funderBalance(): number {
+    return this.myChannels
+      .filter(c => c.isFunder)
+      .map(c => c.toLocalMsat + c.toRemoteMsat)
+      .reduce((a, b) => a + b)
   }
 
 }

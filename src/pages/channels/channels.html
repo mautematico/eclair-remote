@@ -10,8 +10,33 @@
 <ion-content padding>
 
   <ion-list>
-    <channel *ngFor="let ch of myChannels" [channel]=ch (click)="channelSelected(ch)">
-    </channel>
+
+    <div *ngFor="let s of channelStates">
+      <ion-list-header>{{s}} Channels</ion-list-header>
+      <channel *ngFor="let ch of channelsByState(s)" [channel]=ch (click)="channelSelected(ch)"></channel>
+    </div>
+
+    <div *ngIf="channelResume">
+      <ion-list-header>Channel resume</ion-list-header>
+      <channel [channel]=channelResume></channel>
+
+      <ion-item>
+        {{channelResume.toRemoteMsat}}
+        <ion-icon name='logo-bitcoin' item-start></ion-icon>
+        <ion-note item-end>2RMs</ion-note>
+      </ion-item>
+      <ion-item>
+        {{channelResume.toLocalMsat}}
+        <ion-icon name='logo-bitcoin' item-start></ion-icon>
+        <ion-note item-end>2LMs</ion-note>
+      </ion-item>
+      <ion-item>
+        {{funderBalance()}}
+        <ion-icon name='logo-bitcoin' item-start></ion-icon>
+        <ion-note item-end>fuMs</ion-note>
+      </ion-item>
+    </div>
+
   </ion-list>
 
 </ion-content>
