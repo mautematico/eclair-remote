@@ -1,0 +1,17 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Channels</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <channel *ngFor="let ch of myChannels" [channel]=ch (click)="channelSelected(ch)">
+    </channel>
+  </ion-list>
+
+</ion-content>
