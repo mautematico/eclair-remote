@@ -12,21 +12,22 @@ export class ChannelComponent {
 
   constructor() { }
 
-  getRange(): { min: number, max: number, toLocal: number, left: string, right: string } {
+  getRange(): { min: number, max: number, toLocal: number, left: number, right: number } {
     const ch = this.channel;
     const toLocal = ch.toLocalMsat;
     const min = 0;
     const max = (ch.toRemoteMsat + ch.toLocalMsat);
 
-    const left = this.ntf(ch.toLocalMsat / 1000, '').replace('kk', 'm');
-    const right = this.ntf(ch.toRemoteMsat / 1000, '').replace('kk', 'm');
+    let left = this.mSat2mB(ch.toLocalMsat);
+    let right = this.mSat2mB(ch.toRemoteMsat);
 
     return { min, max, toLocal, left, right }
   }
 
-  private ntf(n: number, pfx: string): string {
-    if (n > 999) return this.ntf(n / 1000, `k${pfx}`)
-    return `${Math.round(n * 100) / 100}${pfx}`
+  private mSat2mB(mSat: number): number {
+    //msat to sat to mB
+    const mB = mSat / 1000 / 100000;
+    return Math.round(mB * 100) / 100;
   }
 
 }
