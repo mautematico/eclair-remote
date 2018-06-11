@@ -18,8 +18,8 @@ export class ChannelComponent {
     const min = 0;
     const max = (ch.toRemoteMsat + ch.toLocalMsat);
 
-    const left = this.ntf(ch.toLocalMsat / 1000, '');
-    const right = this.ntf(ch.toRemoteMsat / 1000, '');
+    const left = this.ntf(ch.toLocalMsat / 1000, '').replace('kk', 'm');
+    const right = this.ntf(ch.toRemoteMsat / 1000, '').replace('kk', 'm');
 
     return { min, max, toLocal, left, right }
   }
